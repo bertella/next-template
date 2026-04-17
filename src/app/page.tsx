@@ -112,14 +112,16 @@ export default function LandingPage() {
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-2xl group-hover:bg-primary/20 transition-all"></div>
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-muted">
-                <Image 
-                  src={heroImageData?.imageUrl || "https://picsum.photos/seed/vet/800/600"}
-                  alt={heroImageData?.description || "Veterinaria Animal Life"}
-                  fill
-                  className="object-cover"
-                  priority
-                  data-ai-hint="veterinaria cordoba"
-                />
+                {heroImageData && (
+                  <Image 
+                    src={heroImageData.imageUrl}
+                    alt={heroImageData.description}
+                    fill
+                    className="object-cover"
+                    priority
+                    data-ai-hint="veterinaria cordoba"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -138,13 +140,15 @@ export default function LandingPage() {
                 return (
                   <Card key={i} className="overflow-hidden border-border group hover:shadow-xl transition-all duration-300">
                     <div className="relative h-48 bg-muted">
-                      <Image 
-                        src={imgData?.imageUrl || `https://picsum.photos/seed/${service.id}/600/400`} 
-                        alt={service.title} 
-                        fill 
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        data-ai-hint={service.hint}
-                      />
+                      {imgData && (
+                        <Image 
+                          src={imgData.imageUrl} 
+                          alt={service.title} 
+                          fill 
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          data-ai-hint={service.hint}
+                        />
+                      )}
                       <div className="absolute top-4 left-4 bg-primary text-white p-2.5 rounded-xl shadow-lg">
                         {service.icon}
                       </div>
@@ -194,13 +198,15 @@ export default function LandingPage() {
             </div>
             <div className="relative">
               <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative bg-muted">
-                <Image  
-                  src={teamImageData?.imageUrl || "https://picsum.photos/seed/team/800/800"} 
-                  alt={teamImageData?.description || "Nuestro Equipo"}
-                  fill 
-                  className="object-cover"
-                  data-ai-hint="veterinary team"
-                />
+                {teamImageData && (
+                  <Image  
+                    src={teamImageData.imageUrl} 
+                    alt={teamImageData.description}
+                    fill 
+                    className="object-cover"
+                    data-ai-hint="veterinary team"
+                  />
+                )}
               </div>
             </div>
           </div>

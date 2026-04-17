@@ -39,7 +39,7 @@
     {
       "id": "service-lab",
       "description": "Análisis clínicos y laboratorio",
-      "imageUrl": "/images/urgencia-veterinaria.png",
+      "imageUrl": "/images/analisis-veterinaria.png",
       "imageHint": "medical lab"
     },
     {
