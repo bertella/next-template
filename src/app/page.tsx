@@ -83,8 +83,8 @@ export default function LandingPage() {
             </div>
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-2xl group-hover:bg-primary/20 transition-all"></div>
-              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
-                {heroImg && (
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-muted">
+                {heroImg ? (
                   <Image 
                     src={heroImg.imageUrl} 
                     alt={heroImg.description}
@@ -92,6 +92,10 @@ export default function LandingPage() {
                     className="object-cover"
                     data-ai-hint={heroImg.imageHint}
                   />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-muted-foreground italic">
+                    Cargando imagen...
+                  </div>
                 )}
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 border border-border animate-in fade-in slide-in-from-left-4 duration-700 delay-300">
@@ -160,14 +164,16 @@ export default function LandingPage() {
                 }
               ].map((service, i) => (
                 <Card key={i} className="overflow-hidden border-border group hover:shadow-xl transition-all duration-300">
-                  <div className="relative h-48">
-                    <Image 
-                      src={service.img || "https://picsum.photos/seed/service/600/400"} 
-                      alt={service.title} 
-                      fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      data-ai-hint={service.hint}
-                    />
+                  <div className="relative h-48 bg-muted">
+                    {service.img && (
+                      <Image 
+                        src={service.img} 
+                        alt={service.title} 
+                        fill 
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-ai-hint={service.hint}
+                      />
+                    )}
                     <div className="absolute top-4 left-4 bg-primary text-white p-2.5 rounded-xl shadow-lg">
                       {service.icon}
                     </div>
@@ -219,13 +225,15 @@ export default function LandingPage() {
               </Button>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative">
-                <Image 
-                  src={images.find(img => img.id === "trust-team")?.imageUrl || "https://picsum.photos/seed/team/800/800"} 
-                  alt="Equipo veterinario" 
-                  fill 
-                  className="object-cover"
-                />
+              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative bg-muted">
+                {images.find(img => img.id === "trust-team")?.imageUrl && (
+                  <Image 
+                    src={images.find(img => img.id === "trust-team")!.imageUrl} 
+                    alt="Equipo veterinario" 
+                    fill 
+                    className="object-cover"
+                  />
+                )}
               </div>
               <div className="absolute top-12 -right-6 bg-accent text-white p-8 rounded-3xl shadow-xl space-y-2 hidden sm:block max-w-[240px]">
                 <p className="text-3xl font-black">10+</p>

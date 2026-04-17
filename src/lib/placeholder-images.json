@@ -2,32 +2,50 @@
   "placeholderImages": [
     {
       "id": "hero-vet",
-      "description": "Veterinarian smiling with a happy dog in a modern clinic",
-      "imageUrl": "https://picsum.photos/seed/vet-hero/1200/800",
-      "imageHint": "veterinarian dog"
+      "description": "Veterinaria Animal Life en Nuevo Poeta Lugones, Córdoba",
+      "imageUrl": "/images/veterinaria-cordoba.jpg",
+      "imageHint": "veterinaria cordoba"
     },
     {
       "id": "service-castration",
-      "description": "Surgical tools or professional pet surgery preparation",
-      "imageUrl": "https://picsum.photos/seed/vet-surgery/600/400",
+      "description": "Servicio de castraciones profesionales",
+      "imageUrl": "/images/service-castraciones.jpg",
       "imageHint": "pet surgery"
     },
     {
+      "id": "service-surgery",
+      "description": "Cirugías veterinarias de alta complejidad",
+      "imageUrl": "/images/service-cirugias.jpg",
+      "imageHint": "surgery tools"
+    },
+    {
       "id": "service-grooming",
-      "description": "Dog getting a professional haircut and grooming",
-      "imageUrl": "https://picsum.photos/seed/grooming/600/400",
+      "description": "Peluquería canina y felina especializada",
+      "imageUrl": "/images/service-peluqueria.jpg",
       "imageHint": "dog grooming"
     },
     {
       "id": "service-clinic",
-      "description": "Veterinary clinical consultation room",
-      "imageUrl": "https://picsum.photos/seed/vet-clinic/600/400",
+      "description": "Consulta clínica general veterinaria",
+      "imageUrl": "/images/service-clinica.jpg",
       "imageHint": "vet clinic"
     },
     {
+      "id": "service-emergency",
+      "description": "Atención de urgencias veterinarias",
+      "imageUrl": "/images/service-urgencias.jpg",
+      "imageHint": "vet emergency"
+    },
+    {
+      "id": "service-lab",
+      "description": "Análisis clínicos y laboratorio",
+      "imageUrl": "/images/service-analisis.jpg",
+      "imageHint": "medical lab"
+    },
+    {
       "id": "trust-team",
-      "description": "Professional veterinary team collaborating",
-      "imageUrl": "https://picsum.photos/seed/vet-team/800/600",
+      "description": "Equipo profesional de Animal Life",
+      "imageUrl": "/images/equipo-veterinario.jpg",
       "imageHint": "veterinary team"
     }
   ]
