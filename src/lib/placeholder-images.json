@@ -3,49 +3,49 @@
     {
       "id": "hero-vet",
       "description": "Veterinaria Animal Life en Nuevo Poeta Lugones, Córdoba",
-      "imageUrl": "/images/veterinaria-cordoba.jpg",
+      "imageUrl": "https://picsum.photos/seed/vet1/1200/800",
       "imageHint": "veterinaria cordoba"
     },
     {
       "id": "service-castration",
       "description": "Servicio de castraciones profesionales",
-      "imageUrl": "/images/service-castraciones.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet2/600/400",
       "imageHint": "pet surgery"
     },
     {
       "id": "service-surgery",
       "description": "Cirugías veterinarias de alta complejidad",
-      "imageUrl": "/images/service-cirugias.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet3/600/400",
       "imageHint": "surgery tools"
     },
     {
       "id": "service-grooming",
       "description": "Peluquería canina y felina especializada",
-      "imageUrl": "/images/service-peluqueria.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet4/600/400",
       "imageHint": "dog grooming"
     },
     {
       "id": "service-clinic",
       "description": "Consulta clínica general veterinaria",
-      "imageUrl": "/images/service-clinica.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet5/600/400",
       "imageHint": "vet clinic"
     },
     {
       "id": "service-emergency",
       "description": "Atención de urgencias veterinarias",
-      "imageUrl": "/images/service-urgencias.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet6/600/400",
       "imageHint": "vet emergency"
     },
     {
       "id": "service-lab",
       "description": "Análisis clínicos y laboratorio",
-      "imageUrl": "/images/service-analisis.jpg",
+      "imageUrl": "https://picsum.photos/seed/pet7/600/400",
       "imageHint": "medical lab"
     },
     {
       "id": "trust-team",
       "description": "Equipo profesional de Animal Life",
-      "imageUrl": "/images/equipo-veterinario.jpg",
+      "imageUrl": "https://picsum.photos/seed/vetteam/800/600",
       "imageHint": "veterinary team"
     }
   ]
