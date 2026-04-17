@@ -24,7 +24,6 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { WhatsAppFloating } from "@/components/landing/WhatsAppFloating";
-import { AICopyGenerator } from "@/components/landing/AICopyGenerator";
 import { Navbar } from "@/components/landing/Navbar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -120,7 +119,7 @@ export default function LandingPage() {
                     alt={heroImage.description}
                     fill
                     className="object-cover"
-                    data-ai-hint={heroImage.imageHint}
+                    priority
                   />
                 )}
               </div>
@@ -147,7 +146,6 @@ export default function LandingPage() {
                           alt={service.title} 
                           fill 
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          data-ai-hint={service.hint}
                         />
                       )}
                       <div className="absolute top-4 left-4 bg-primary text-white p-2.5 rounded-xl shadow-lg">
@@ -205,7 +203,6 @@ export default function LandingPage() {
                     alt={teamImage.description}
                     fill 
                     className="object-cover"
-                    data-ai-hint={teamImage.imageHint}
                   />
                 )}
               </div>
