@@ -1,3 +1,6 @@
+
+import imageData from '@/app/lib/placeholder-images.json';
+
 export type ImagePlaceholder = {
   id: string;
   description: string;
@@ -5,53 +8,4 @@ export type ImagePlaceholder = {
   imageHint: string;
 };
 
-export const PlaceHolderImages: ImagePlaceholder[] = [
-  {
-    "id": "hero-vet",
-    "description": "Veterinaria Animal Life en Nuevo Poeta Lugones, Córdoba",
-    "imageUrl": "/images/veterinaria-cordoba.jpg",
-    "imageHint": "veterinaria cordoba"
-  },
-  {
-    "id": "service-castration",
-    "description": "Servicio de castraciones profesionales",
-    "imageUrl": "/images/castraciones.jpg",
-    "imageHint": "pet surgery"
-  },
-  {
-    "id": "service-surgery",
-    "description": "Cirugías veterinarias de alta complejidad",
-    "imageUrl": "/images/cirugias.jpg",
-    "imageHint": "surgery tools"
-  },
-  {
-    "id": "service-grooming",
-    "description": "Peluquería canina y felina especializada",
-    "imageUrl": "/images/peluqueria.jpg",
-    "imageHint": "dog grooming"
-  },
-  {
-    "id": "service-clinic",
-    "description": "Consulta clínica general veterinaria",
-    "imageUrl": "/images/clinica.jpg",
-    "imageHint": "vet clinic"
-  },
-  {
-    "id": "service-emergency",
-    "description": "Atención de urgencias veterinarias",
-    "imageUrl": "/images/urgencias.jpg",
-    "imageHint": "vet emergency"
-  },
-  {
-    "id": "service-lab",
-    "description": "Análisis clínicos y laboratorio",
-    "imageUrl": "/images/analisis.jpg",
-    "imageHint": "medical lab"
-  },
-  {
-    "id": "trust-team",
-    "description": "Equipo profesional de Animal Life",
-    "imageUrl": "/images/equipo.jpg",
-    "imageHint": "veterinary team"
-  }
-];
+export const PlaceHolderImages: ImagePlaceholder[] = imageData.placeholderImages;
