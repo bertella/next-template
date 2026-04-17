@@ -13,7 +13,10 @@ import {
   Stethoscope, 
   ShieldCheck, 
   ChevronRight,
-  Heart
+  Heart,
+  Instagram,
+  Facebook,
+  Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,6 +29,7 @@ import {
 import { WhatsAppFloating } from "@/components/landing/WhatsAppFloating";
 import { Navbar } from "@/components/landing/Navbar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Separator } from "@/components/ui/separator";
 
 export default function LandingPage() {
   const whatsappUrl = "https://wa.me/5493512323695?text=Hola%20Animal%20Life,%20necesito%20realizar%20una%20consulta.";
@@ -213,6 +217,62 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Map Section */}
+        <section id="ubicacion" className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-black text-foreground">¿Dónde estamos?</h2>
+              <p className="text-muted-foreground">Vení a visitarnos en Nuevo Poeta Lugones. Te esperamos con el mejor cuidado para tu mascota.</p>
+            </div>
+            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white bg-muted aspect-video md:aspect-[21/9]">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3406.495270273874!2d-64.2014072!3d-31.3729227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432997238241b31%3A0xb5b73307567e780d!2sDami%C3%A1n%20Garat%202630%2C%20X5008%20C%C3%B3rdoba!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <div className="mt-12 grid md:grid-cols-3 gap-8">
+              <Card className="border-none shadow-md bg-secondary/10">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">Dirección</h4>
+                    <p className="text-sm text-muted-foreground">Damian Garat 2630, Córdoba</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-none shadow-md bg-secondary/10">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">Teléfono</h4>
+                    <p className="text-sm text-muted-foreground">0351 232-3695</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-none shadow-md bg-secondary/10">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                    <Clock className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">Horario</h4>
+                    <p className="text-sm text-muted-foreground">Lun a Sáb: 9:00 - 13:30 | 16:00 - 20:00</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section id="faq" className="py-24 bg-secondary/10">
           <div className="container mx-auto px-4 max-w-3xl">
@@ -238,9 +298,97 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="bg-foreground text-white py-16 border-t border-white/10">
-        <div className="container mx-auto px-4 text-center">
-          <p>© {new Date().getFullYear()} Veterinaria Animal Life. Todos los derechos reservados.</p>
+      {/* Professional Footer */}
+      <footer className="bg-foreground text-white pt-20 pb-10">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            {/* Column 1: Brand */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <div className="bg-primary p-1.5 rounded-lg text-white">
+                  <Heart className="w-6 h-6 fill-current" />
+                </div>
+                <span className="font-headline font-bold text-2xl tracking-tight">Animal Life</span>
+              </div>
+              <p className="text-white/60 leading-relaxed text-sm">
+                Comprometidos con la salud y el bienestar de tus mascotas en Córdoba. Brindamos atención veterinaria de alta calidad con un toque humano y profesional.
+              </p>
+              <div className="flex items-center gap-4">
+                <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="mailto:info@animallife.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                  <Mail className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Column 2: Quick Links */}
+            <div className="space-y-6">
+              <h4 className="text-lg font-bold">Enlaces Rápidos</h4>
+              <nav className="flex flex-col gap-4 text-sm text-white/60">
+                <a href="#top" className="hover:text-primary transition-colors">Inicio</a>
+                <a href="#servicios" className="hover:text-primary transition-colors">Nuestros Servicios</a>
+                <a href="#beneficios" className="hover:text-primary transition-colors">¿Por qué elegirnos?</a>
+                <a href="#ubicacion" className="hover:text-primary transition-colors">Dónde Estamos</a>
+                <a href="#faq" className="hover:text-primary transition-colors">Preguntas Frecuentes</a>
+              </nav>
+            </div>
+
+            {/* Column 3: Contact Info */}
+            <div className="space-y-6">
+              <h4 className="text-lg font-bold">Contacto</h4>
+              <div className="space-y-4 text-sm text-white/60">
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-primary shrink-0" />
+                  <span>Damian Garat 2630,<br />X5008AHO Córdoba</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-primary shrink-0" />
+                  <a href="tel:03512323695" className="hover:text-primary transition-colors">0351 232-3695</a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MessageCircle className="w-5 h-5 text-primary shrink-0" />
+                  <a href={whatsappUrl} target="_blank" className="hover:text-primary transition-colors">WhatsApp Directo</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 4: Hours */}
+            <div className="space-y-6">
+              <h4 className="text-lg font-bold">Horarios de Atención</h4>
+              <div className="space-y-3 text-sm text-white/60">
+                <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                  <span>Lunes a Viernes</span>
+                  <span className="text-white font-medium">9:00 - 13:30 | 16:00 - 20:00</span>
+                </div>
+                <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                  <span>Sábados</span>
+                  <span className="text-white font-medium">9:00 - 13:30</span>
+                </div>
+                <div className="flex justify-between items-center text-primary font-bold pt-2">
+                  <span>Urgencias</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    Consultar WhatsApp
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Separator className="bg-white/10 mb-8" />
+          
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-white/40">
+            <p>© {new Date().getFullYear()} Veterinaria Animal Life. Todos los derechos reservados.</p>
+            <div className="flex gap-8">
+              <a href="#" className="hover:text-white transition-colors">Políticas de Privacidad</a>
+              <a href="#" className="hover:text-white transition-colors">Términos de Servicio</a>
+            </div>
+          </div>
         </div>
       </footer>
 
