@@ -71,8 +71,8 @@ export default function LandingPage() {
               <div className="flex items-center gap-6 pt-4">
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-muted">
-                      <Image src={`https://picsum.photos/seed/face${i}/100/100`} alt="Client" width={40} height={40} />
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-muted relative">
+                      <Image src={`https://picsum.photos/seed/face${i}/100/100`} alt="Client" width={40} height={40} className="object-cover" />
                     </div>
                   ))}
                 </div>
@@ -127,7 +127,7 @@ export default function LandingPage() {
                   title: "Cirugías", 
                   desc: "Intervenciones quirúrgicas de alta y baja complejidad con enfoque profesional.",
                   icon: <Stethoscope className="w-6 h-6" />,
-                  img: images.find(i => i.id === "hero-vet")?.imageUrl,
+                  img: images.find(i => i.id === "service-surgery")?.imageUrl,
                   hint: "surgery tools"
                 },
                 { 
@@ -148,14 +148,14 @@ export default function LandingPage() {
                   title: "Urgencias", 
                   desc: "Atención inmediata para situaciones críticas. Tu tranquilidad es nuestra prioridad.",
                   icon: <Clock className="w-6 h-6" />,
-                  img: "https://picsum.photos/seed/emergency/600/400",
+                  img: images.find(i => i.id === "service-emergency")?.imageUrl,
                   hint: "vet emergency"
                 },
                 { 
                   title: "Análisis Clínicos", 
                   desc: "Diagnósticos precisos mediante laboratorio especializado para resultados rápidos.",
                   icon: <ShieldCheck className="w-6 h-6" />,
-                  img: "https://picsum.photos/seed/lab/600/400",
+                  img: images.find(i => i.id === "service-lab")?.imageUrl,
                   hint: "medical lab"
                 }
               ].map((service, i) => (
@@ -219,7 +219,7 @@ export default function LandingPage() {
               </Button>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
+              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative">
                 <Image 
                   src={images.find(img => img.id === "trust-team")?.imageUrl || "https://picsum.photos/seed/team/800/800"} 
                   alt="Equipo veterinario" 
