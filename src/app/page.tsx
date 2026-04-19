@@ -1,66 +1,105 @@
-import Link from 'next/link';
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+
+interface Producto {
+  id: string;
+  nombre: string;
+  precio: number;
+  imagen_url: string;
+}
 
 export default function HomePage() {
+  const [productos, setProductos] = useState<Producto[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProductos = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('productos')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching productos:', error);
+      } else {
+        setProductos(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchProductos();
+  }, []);
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+    }).format(amount);
+  };
+
+  const addToCart = (nombre: string) => {
+    alert(`Has añadido ${nombre} al carrito`);
+  };
+
   return (
-    <>
+    <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gray-900 text-white py-32">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-            Soluciones Innovadoras para tu Negocio
+      <section className="py-20 px-4 text-center bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+            Nuestra Colección
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Potenciamos tu crecimiento con tecnología, creatividad y estrategias a medida.
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Descubre productos exclusivos diseñados con la mejor calidad y estilo para tu día a día.
           </p>
-          <Link href="/turnos" passHref>
-            <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-              Pedir Información
-            </Button>
-          </Link>
         </div>
       </section>
 
-      {/* Services Section Placeholder */}
-      <section id="servicios" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-800">Nuestros Servicios</h2>
-            <p className="text-gray-600 text-lg">
-              Ofrecemos una amplia gama de soluciones diseñadas para llevar tu proyecto al siguiente nivel. Próximamente, más detalles aquí.
-            </p>
+      {/* Product Grid */}
+      <section className="container mx-auto px-4 py-16">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <p className="text-gray-500 text-xl animate-pulse">Cargando productos...</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-100 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-bold mb-2">Servicio Uno</h3>
-              <p className="text-gray-600">Descripción breve del servicio.</p>
-            </div>
-            <div className="bg-gray-100 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-bold mb-2">Servicio Dos</h3>
-              <p className="text-gray-600">Descripción breve del servicio.</p>
-            </div>
-            <div className="bg-gray-100 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-bold mb-2">Servicio Tres</h3>
-              <p className="text-gray-600">Descripción breve del servicio.</p>
-            </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {productos.map((producto) => (
+              <Card key={producto.id} className="border-none shadow-none group">
+                <CardContent className="p-0 mb-4 overflow-hidden rounded-xl bg-gray-100 aspect-square relative">
+                  <img
+                    src={producto.imagen_url}
+                    alt={producto.nombre}
+                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                  />
+                </CardContent>
+                <div className="space-y-1">
+                  <h3 className="font-bold text-lg text-gray-800">{producto.nombre}</h3>
+                  <p className="text-gray-600 font-medium">{formatCurrency(producto.precio)}</p>
+                </div>
+                <CardFooter className="p-0 mt-4">
+                  <Button 
+                    onClick={() => addToCart(producto.nombre)}
+                    className="w-full bg-black hover:bg-gray-800 text-white rounded-lg py-6 transition-colors"
+                  >
+                    Añadir al carrito
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* Contact Section Placeholder */}
-      <section id="contacto" className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4 text-center max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-black text-gray-800 mb-4">Contacto</h2>
-          <p className="text-gray-600 text-lg mb-8">
-            ¿Listo para empezar? Contáctanos para recibir más información.
-          </p>
-          <Link href="/turnos" passHref>
-             <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-              Ir al Formulario de Contacto
-            </Button>
-          </Link>
-        </div>
+        {!loading && productos.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg">No se encontraron productos disponibles.</p>
+          </div>
+        )}
       </section>
-    </>
+    </main>
   );
 }
