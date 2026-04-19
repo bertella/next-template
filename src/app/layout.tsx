@@ -3,27 +3,26 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-// 1. Definición de Metadatos (SEO optimizado para Córdoba)
+// 1. Definición de Metadatos (SEO optimizado para DoctaData Shop)
 export const metadata: Metadata = {
-  title: 'Veterinaria Animal Life | Urgencias en Nuevo Poeta Lugones, Córdoba',
-  description: 'Atención veterinaria profesional en Nuevo Poeta Lugones, Córdoba. Urgencias, castraciones, cirugías y peluquería canina. ¡Contactanos por WhatsApp!',
+  title: 'DoctaData Shop | Soluciones Digitales en Córdoba',
+  description: 'Catálogo digital y soluciones tecnológicas profesionales de DoctaData. Calidad y eficiencia para tu negocio en Córdoba.',
   keywords: [
-    'veterinaria en Nuevo Poeta Lugones', 
-    'veterinaria en Córdoba', 
-    'urgencias veterinarias en Córdoba', 
-    'castraciones Córdoba', 
-    'cirugías mascotas Córdoba'
+    'DoctaData', 
+    'desarrollo web Córdoba', 
+    'catálogo digital', 
+    'soluciones IT', 
+    'software de gestión'
   ],
   openGraph: {
-    title: 'Animal Life - Veterinaria en Nuevo Poeta Lugones',
-    description: 'Atención profesional y cercana para tu mascota. Urgencias disponibles.',
+    title: 'DoctaData Shop - Innovación en cada producto',
+    description: 'Explora nuestro catálogo de productos y herramientas digitales diseñadas para el mercado actual.',
     locale: 'es_AR',
     type: 'website',
-    url: 'https://animallife.com.ar', // Cambialo por tu URL real
   },
 };
 
-export default function RootLayout({
+export default function RooGIT AtLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -39,16 +38,14 @@ export default function RootLayout({
           rel="stylesheet" 
         />
       </head>
-      <body className="font-body antialiased bg-background text-foreground">
+      <body className="font-sans antialiased bg-background text-foreground">
         {children}
         
         {/* Componentes Globales de UI */}
         <Toaster />
 
         {/* Google Analytics 4 
-          Sustituye 'G-XXXXXXXXXX' por tu ID real. 
-          Este componente reemplaza la necesidad de scripts manuales de GTM 
-          si solo vas a usar Analytics.
+          He mantenido tu ID de Analytics actual por si quieres seguir midiendo tráfico.
         */}
         <GoogleAnalytics gaId="G-DZ9FW6PVHK" />
       </body>
