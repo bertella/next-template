@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RooGIT AtLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
