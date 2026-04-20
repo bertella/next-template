@@ -14,7 +14,7 @@ export default function CatalogoLiquidacion() {
   
   const [imagenExpandida, setImagenExpandida] = useState<{ imagenes: string[], nombre: string } | null>(null);
 
-  const WHATSAPP_NUMBER = "5493512042270"; 
+  const WHATSAPP_NUMBER = "5493516538362"; 
 
   useEffect(() => {
     async function cargarDatos() {
