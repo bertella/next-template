@@ -10,6 +10,10 @@ export default function AdminPremium() {
   const [categorias, setCategorias] = useState<{ id: number; nombre: string }[]>([]);
   const [productos, setProductos] = useState<any[]>([]);
   
+  // --- ESTADOS PARA NUEVA CATEGORÍA ---
+  const [mostrarNuevaCat, setMostrarNuevaCat] = useState(false);
+  const [nombreNuevaCat, setNombreNuevaCat] = useState('');
+
   // --- SEGURIDAD ---
   const [autorizado, setAutorizado] = useState(false);
   const [passInput, setPassInput] = useState('');
@@ -20,7 +24,7 @@ export default function AdminPremium() {
     nombre: '',
     descripcion: '',
     precio: '',
-    precio_anterior: '', // <-- Nuevo campo
+    precio_anterior: '',
     categoria_id: ''
   });
 
@@ -40,6 +44,26 @@ export default function AdminPremium() {
     setVerificando(false);
   }, [cargarDatosInciales]);
 
+  // Lógica para crear categoría al vuelo
+  async function crearCategoriaRapida() {
+    if (!nombreNuevaCat.trim()) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('categorias')
+      .insert([{ nombre: nombreNuevaCat.trim() }])
+      .select()
+      .single();
+
+    if (data) {
+      setCategorias([...categorias, data]);
+      setFormValues({ ...formValues, categoria_id: data.id.toString() });
+      setMostrarNuevaCat(false);
+      setNombreNuevaCat('');
+      setMensaje('✨ Categoría creada');
+    }
+    setLoading(false);
+  }
+
   const manejarLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const CLAVE_MAESTRA = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
@@ -58,7 +82,6 @@ export default function AdminPremium() {
     setAutorizado(false);
   };
 
-  // --- LÓGICA DE PRODUCTOS ---
   async function eliminarProducto(id: number, nombre: string) {
     if (!confirm(`¿Estás seguro de eliminar "${nombre}"?`)) return;
     const { error } = await supabase.from('productos').delete().eq('id', id);
@@ -94,7 +117,7 @@ export default function AdminPremium() {
         nombre: formValues.nombre,
         descripcion: formValues.descripcion,
         precio: parseFloat(formValues.precio),
-        precio_anterior: formValues.precio_anterior ? parseFloat(formValues.precio_anterior) : null, // <-- Payload actualizado
+        precio_anterior: formValues.precio_anterior ? parseFloat(formValues.precio_anterior) : null,
         categoria_id: parseInt(formValues.categoria_id),
         imagenes: urlsSubidas
       };
@@ -185,27 +208,57 @@ export default function AdminPremium() {
               <input type="number" step="0.01" value={formValues.precio} onChange={(e) => setFormValues({...formValues, precio: e.target.value})} required className="w-full p-5 bg-slate-50 border-none rounded-[1.5rem] outline-none font-bold text-blue-600" placeholder="0.00" />
             </div>
             
-            {/* --- NUEVO CAMPO: PRECIO ANTERIOR --- */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2 ml-4">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Precio Anterior</label>
-                <div className="group relative cursor-help">
-                  <span className="w-4 h-4 rounded-full bg-slate-200 text-slate-500 text-[10px] flex items-center justify-center font-black">?</span>
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-3 bg-slate-900 text-white text-[9px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-2xl">
-                    Este precio aparecerá <span className="line-through text-red-400">tachado</span>. Ideal para mostrar descuentos. Dejalo vacío si no hay oferta.
-                  </div>
-                </div>
-              </div>
+              <label className="text-[10px] font-black text-slate-400 uppercase ml-4 tracking-widest">Precio Anterior</label>
               <input type="number" step="0.01" value={formValues.precio_anterior} onChange={(e) => setFormValues({...formValues, precio_anterior: e.target.value})} className="w-full p-5 bg-slate-50 border-none rounded-[1.5rem] outline-none font-bold text-slate-400 line-through" placeholder="Ej: 250" />
             </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-4 tracking-widest">Categoría</label>
-            <select value={formValues.categoria_id} onChange={(e) => setFormValues({...formValues, categoria_id: e.target.value})} required className="w-full p-5 bg-slate-50 border-none rounded-[1.5rem] outline-none font-bold text-slate-600">
-              <option value="">Seleccionar...</option>
-              {categorias.map(cat => <option key={cat.id} value={cat.id}>{cat.nombre}</option>)}
-            </select>
+            {!mostrarNuevaCat ? (
+              <select 
+                value={formValues.categoria_id} 
+                onChange={(e) => {
+                  if (e.target.value === "new") {
+                    setMostrarNuevaCat(true);
+                  } else {
+                    setFormValues({...formValues, categoria_id: e.target.value});
+                  }
+                }} 
+                required 
+                className="w-full p-5 bg-slate-50 border-none rounded-[1.5rem] outline-none font-bold text-slate-600 appearance-none"
+              >
+                <option value="">Seleccionar...</option>
+                {categorias.map(cat => <option key={cat.id} value={cat.id}>{cat.nombre}</option>)}
+                <option value="new" className="text-blue-600 font-bold">+ Crear nueva categoría...</option>
+              </select>
+            ) : (
+              <div className="flex gap-2">
+                <input 
+                  autoFocus
+                  type="text"
+                  value={nombreNuevaCat}
+                  onChange={(e) => setNombreNuevaCat(e.target.value)}
+                  className="flex-1 p-5 bg-blue-50 border-2 border-blue-100 rounded-[1.5rem] outline-none font-bold text-blue-600 placeholder:text-blue-300"
+                  placeholder="Ej: Calzado, Herramientas..."
+                />
+                <button 
+                  type="button"
+                  onClick={crearCategoriaRapida}
+                  className="px-6 bg-blue-600 text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest"
+                >
+                  OK
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setMostrarNuevaCat(false)}
+                  className="px-4 bg-slate-200 text-slate-500 rounded-[1.5rem] font-black text-[10px]"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
