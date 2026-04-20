@@ -1,186 +1,153 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link'; // Importante para la navegación rápida
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import Link from 'next/link';
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-
-export default function CatalogoPro() {
+export default function CatalogoLiquidacion() {
   const [productos, setProductos] = useState<any[]>([]);
-  const [categorias, setCategorias] = useState<any[]>([]);
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string>('Todas');
   const [loading, setLoading] = useState(true);
-  const [productoSeleccionado, setProductoSeleccionado] = useState<any | null>(null);
+
+  // Configuración del WhatsApp
+  const WHATSAPP_NUMBER = "5493512042270"; 
 
   useEffect(() => {
-    async function inicializar() {
-      const { data: catData } = await supabase.from('categorias').select('*').order('nombre');
-      if (catData) setCategorias([{ id: 'all', nombre: 'Todas' }, ...catData]);
-
-      const { data: prodData } = await supabase
+    async function cargarProductos() {
+      const { data } = await supabase
         .from('productos')
         .select('*, categorias(nombre)')
-        .eq('stock_activo', true)
         .order('created_at', { ascending: false });
-
-      if (prodData) setProductos(prodData);
+      
+      if (data) setProductos(data);
       setLoading(false);
     }
-    inicializar();
+    cargarProductos();
   }, []);
 
-  const productosFiltrados = categoriaSeleccionada === 'Todas'
-    ? productos
-    : productos.filter(p => p.categorias?.nombre === categoriaSeleccionada);
+  const handleWhatsApp = (productoNombre: string) => {
+    const mensaje = encodeURIComponent(`¡Hola! Me interesa el producto "${productoNombre}" que vi en liquidación en DoctaData Shop. ¿Sigue disponible?`);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`;
+    window.open(url, '_blank');
+  };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[#F5F5F7]">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-bounce text-4xl">🚀</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#F5F5F7] min-h-screen flex flex-col font-sans text-[#1D1D1F]">
+    <div className="min-h-screen bg-[#F8F9FA] font-sans">
       
-      {/* HEADER CON LOGO-LINK AL ADMIN */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 py-4 px-6 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/admin" className="group">
-            <h1 className="text-xl font-bold tracking-tight text-slate-950 transition-colors group-hover:text-blue-600">
-              DoctaData <span className="text-blue-600 font-medium group-hover:text-slate-950 transition-colors">Shop</span>
-            </h1>
-          </Link>
-          <div className="flex items-center gap-2">
-             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-             <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Catálogo Online</span>
+      {/* HEADER DE IMPACTO: LIQUIDACIÓN */}
+      <header className="bg-slate-900 text-white pt-16 pb-24 px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[120px] opacity-20 -mr-32 -mt-32"></div>
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className="inline-block bg-red-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-[0.3em] mb-6 animate-pulse">
+            Stock Limitado • Precios de Costo
           </div>
+          <h1 className="text-4xl md:text-7xl font-black tracking-tighter mb-4 italic">
+          SUPER <span className="text-red-600 italic">OFERTAS</span>
+          </h1>
+          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">
+            DoctaData Shop <span className="mx-2">|</span> Reventa de Oportunidad
+          </p>
         </div>
       </header>
 
-      {/* BARRA DE CATEGORÍAS */}
-      <nav className="sticky top-[65px] z-40 bg-white/60 backdrop-blur-md border-b border-gray-100 py-4 overflow-x-auto no-scrollbar">
-        <div className="max-w-7xl mx-auto px-4 flex gap-2">
-          {categorias.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setCategoriaSeleccionada(cat.nombre)}
-              className={`whitespace-nowrap px-6 py-2.5 rounded-full text-xs font-bold transition-all border ${
-                categoriaSeleccionada === cat.nombre
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100 scale-105'
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-blue-400'
-              }`}
-            >
-              {cat.nombre}
-            </button>
-          ))}
-        </div>
-      </nav>
+      {/* GRILLA DE PRODUCTOS */}
+      <main className="max-w-7xl mx-auto px-4 -mt-12 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {productos.map((producto) => (
+            <div key={producto.id} className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12)] transition-all duration-500 border border-white flex flex-col">
+              
+              <div className="absolute top-5 left-5 z-30">
+                <div className="bg-red-600 text-white text-[11px] font-black uppercase tracking-tighter px-4 py-2 rounded-xl shadow-xl shadow-red-900/20 transform -rotate-3 group-hover:rotate-0 transition-transform duration-300">
+                  ¡REVENTA TOTAL!
+                </div>
+              </div>
 
-      <main className="max-w-7xl mx-auto p-4 md:p-8 flex-grow">
-        <p className="text-[10px] uppercase font-black text-gray-400 mb-6 tracking-widest px-1">
-          {productosFiltrados.length} items encontrados
-        </p>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          <AnimatePresence mode='popLayout'>
-            {productosFiltrados.map((producto) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                key={producto.id}
-                className="bg-white rounded-[2rem] shadow-sm border border-gray-100 flex flex-col overflow-hidden h-full hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative aspect-square">
-                  {producto.imagenes?.length > 0 ? (
-                    <Swiper modules={[Pagination]} pagination={{ dynamicBullets: true }} className="w-full h-full">
-                      {producto.imagenes.map((url: string, i: number) => (
-                        <SwiperSlide key={i} className="flex items-center justify-center p-4">
-                          <img src={url} className="max-w-full max-h-full object-contain" alt={producto.nombre} />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
+              <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
+                <div className="flex overflow-x-auto snap-x snap-mandatory h-full scrollbar-hide">
+                  {producto.imagenes && producto.imagenes.length > 0 ? (
+                    producto.imagenes.map((img: string, idx: number) => (
+                      <div key={idx} className="min-w-full h-full snap-center shrink-0">
+                        <img 
+                          src={img} 
+                          alt={`${producto.nombre} ${idx + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-110 group-hover:blur-[2px] transition-all duration-1000"
+                        />
+                      </div>
+                    ))
                   ) : (
-                    <div className="w-full h-full bg-gray-50 flex items-center justify-center text-gray-300">🖼️</div>
+                    <img src="https://placehold.co/600x800" className="w-full h-full object-cover" alt="Sin imagen" />
                   )}
                 </div>
 
-                <div className="p-4 flex flex-col flex-grow">
-                  <div className="h-12 mb-2">
-                    <h2 className="text-[13px] font-bold text-slate-900 leading-snug line-clamp-2">
-                      {producto.nombre}
-                    </h2>
+                {producto.imagenes?.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                    {producto.imagenes.map((_: any, i: number) => (
+                      <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/60"></div>
+                    ))}
+                  </div>
+                )}
+                
+                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 pointer-events-none z-10">
+                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2">
+                      Ficha Técnica
+                    </p>
+                    <p className="text-white text-sm font-medium leading-relaxed italic">
+                      {producto.descripcion || 'Oportunidad única en liquidación de stock.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="mb-6">
+                  <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.25em] bg-blue-50 px-3 py-1 rounded-lg">
+                    {producto.categorias?.nombre || 'General'}
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-900 leading-tight mt-4 group-hover:text-red-600 transition-colors duration-300">
+                    {producto.nombre}
+                  </h3>
+                </div>
+
+                <div className="mt-auto">
+                  <div className="flex flex-col mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest line-through decoration-red-500/50">
+                      Precio Regular
+                    </span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-black text-slate-900 tracking-tighter">
+                        ${new Intl.NumberFormat('es-AR').format(producto.precio)}
+                      </span>
+                      <span className="text-red-600 font-black text-xs uppercase animate-pulse">¡OFF!</span>
+                    </div>
                   </div>
 
                   <button 
-                    onClick={() => setProductoSeleccionado(producto)}
-                    className="mb-4 flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-blue-50 rounded-xl transition-colors group"
+                    onClick={() => handleWhatsApp(producto.nombre)}
+                    className="w-full py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-red-600 shadow-xl shadow-slate-200 hover:shadow-red-900/30 transition-all duration-500 active:scale-95 flex items-center justify-center gap-3 group/btn cursor-pointer"
                   >
-                    <span className="text-[9px] font-black text-slate-400 group-hover:text-blue-600 uppercase tracking-tighter">Especificaciones</span>
-                    <span className="text-slate-300 group-hover:text-blue-600 font-bold">+</span>
+                    <span className="uppercase tracking-[0.2em] text-[10px]">Aprovechar Oferta</span>
+                    <span className="text-xl group-hover/btn:translate-x-1 transition-transform">⚡</span>
                   </button>
-
-                  <div className="mt-auto pt-2">
-                    <span className="text-xl font-medium text-slate-950 block">
-                      ${new Intl.NumberFormat('es-AR').format(producto.precio)}
-                    </span>
-                    <a 
-                      href={`https://wa.me/549351XXXXXXX?text=Consulta por: ${producto.nombre}`}
-                      target="_blank"
-                      className="mt-3 w-full bg-[#3483FA] text-white text-center text-[11px] font-bold py-3.5 rounded-xl block shadow-lg shadow-blue-100 active:scale-95 transition-all"
-                    >
-                      CONSULTAR
-                    </a>
-                  </div>
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+              </div>
+            </div>
+          ))}
         </div>
       </main>
 
-      {/* FOOTER MÍNIMO */}
-      <footer className="py-12 border-t border-gray-100 text-center">
-        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.3em]">DoctaData • Córdoba</p>
+      <footer className="py-10 text-center border-t border-slate-100">
+        <Link href="/admin" className="text-slate-300 hover:text-slate-900 transition-colors text-[10px] font-black uppercase tracking-[0.5em]">
+          DoctaData © 2026
+        </Link>
       </footer>
-
-      {/* MODAL DETALLES */}
-      <AnimatePresence>
-        {productoSeleccionado && (
-          <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setProductoSeleccionado(null)} className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100]" />
-            <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} className="fixed bottom-0 left-0 right-0 bg-white rounded-t-[40px] z-[110] p-8 max-h-[85vh] overflow-y-auto">
-              <div className="w-16 h-1 bg-gray-200 rounded-full mx-auto mb-8" />
-              <h3 className="text-2xl font-bold mb-6 text-slate-900">{productoSeleccionado.nombre}</h3>
-              <div className="space-y-4">
-                {productoSeleccionado.descripcion?.split('\n').map((l: string, i: number) => (
-                  l.trim() && (
-                    <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-gray-100 flex gap-3 items-start">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
-                      <p className="text-sm text-slate-600 leading-relaxed">{l.trim()}</p>
-                    </div>
-                  )
-                ))}
-              </div>
-              <button onClick={() => setProductoSeleccionado(null)} className="w-full mt-10 py-5 bg-slate-900 text-white font-bold rounded-2xl">Cerrar</button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      <style jsx global>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .swiper-pagination-bullet-active { background: #3483FA !important; }
-      `}</style>
     </div>
   );
 }
