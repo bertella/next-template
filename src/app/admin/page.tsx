@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link'; // Importamos Link para navegación interna rápida
 
 export default function AdminMultiFoto() {
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,6 @@ export default function AdminMultiFoto() {
     if (data) setProductos(data);
   }
 
-  // FUNCIÓN PARA ELIMINAR (EL CESTO)
   async function eliminarProducto(id: number, nombre: string) {
     const confirmar = confirm(`¿Estás seguro de eliminar "${nombre}"?`);
     if (!confirmar) return;
@@ -112,10 +112,26 @@ export default function AdminMultiFoto() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 md:p-8 bg-gray-50 min-h-screen font-sans">
-      <div className="bg-white p-8 shadow-2xl rounded-3xl border-t-8 border-blue-600">
-        <h1 className="text-2xl font-black mb-6 text-slate-800 flex items-center gap-2">
-          {editandoId ? '✏️ Editando' : '📦 Nuevo Ingreso'}
-        </h1>
+      
+      {/* HEADER DEL ADMIN CON BOTÓN DE VISTA PREVIA */}
+      <div className="flex items-center justify-between mb-8 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+        <div>
+          <h1 className="text-xl font-black text-slate-800">DoctaData</h1>
+          <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Panel de Control</p>
+        </div>
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-slate-200"
+        >
+          <span>Ver Catálogo</span>
+          <span className="text-base">👁️</span>
+        </Link>
+      </div>
+
+      <div className="bg-white p-8 shadow-2xl rounded-[2.5rem] border-t-8 border-blue-600">
+        <h2 className="text-xl font-bold mb-6 text-slate-800 flex items-center gap-2">
+          {editandoId ? '✏️ Editando Producto' : '📦 Nuevo Ingreso'}
+        </h2>
         
         <form onSubmit={handleSubmit} className="space-y-5">
           <input 
@@ -146,43 +162,42 @@ export default function AdminMultiFoto() {
             value={formValues.descripcion}
             onChange={(e) => setFormValues({...formValues, descripcion: e.target.value})}
             className="w-full p-4 border-2 border-gray-100 rounded-2xl" 
-            placeholder="Descripción..." 
+            placeholder="Descripción técnica..." 
             rows={4} 
           />
 
           <div className="bg-blue-50 p-6 rounded-2xl border-2 border-dashed border-blue-200">
-            <label className="text-xs font-black text-blue-600 uppercase mb-2 block tracking-widest">Fotos</label>
+            <label className="text-[10px] font-black text-blue-600 uppercase mb-2 block tracking-widest">Cargar Imágenes</label>
             <input name="imagenes" type="file" accept="image/*" multiple required={!editandoId} className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700" />
           </div>
 
-          <button type="submit" disabled={loading} className="w-full p-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-black shadow-lg active:scale-95 transition-all">
-            {loading ? 'Procesando...' : editandoId ? 'Guardar Cambios' : 'Publicar'}
+          <button type="submit" disabled={loading} className="w-full p-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 shadow-xl active:scale-95 transition-all">
+            {loading ? 'Subiendo...' : editandoId ? 'Guardar Cambios' : 'Publicar'}
           </button>
         </form>
-        {mensaje && <div className="mt-6 text-center p-3 bg-blue-50 rounded-xl text-blue-700 font-bold">{mensaje}</div>}
+        {mensaje && <div className="mt-6 text-center p-3 bg-blue-50 rounded-xl text-blue-700 font-bold animate-pulse text-sm">{mensaje}</div>}
       </div>
 
-      {/* LISTADO CON LÁPIZ Y CESTO */}
-      <div className="mt-10 grid gap-3">
+      <div className="mt-12 grid gap-3">
+        <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] px-2 mb-2">Productos en línea</h3>
         {productos.map((p) => (
-          <div key={p.id} className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+          <div key={p.id} className="flex items-center justify-between bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <img src={p.imagenes?.[0] || 'https://placehold.co/100x100'} className="w-12 h-12 object-cover rounded-lg" />
+                <img src={p.imagenes?.[0] || 'https://placehold.co/100x100'} className="w-12 h-12 object-cover rounded-xl" />
                 {p.imagenes?.length > 1 && (
-                  <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[8px] w-4 h-4 flex items-center justify-center rounded-full">
+                  <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[9px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
                     {p.imagenes.length}
                   </span>
                 )}
               </div>
               <div>
                 <p className="font-bold text-slate-800 text-sm">{p.nombre}</p>
-                <p className="text-[10px] text-gray-400 font-bold uppercase">{p.categorias?.nombre}</p>
+                <p className="text-[9px] text-blue-500 font-black uppercase tracking-tighter">{p.categorias?.nombre}</p>
               </div>
             </div>
             
             <div className="flex gap-2">
-              {/* BOTÓN EDITAR */}
               <button 
                 onClick={() => {
                   setEditandoId(p.id);
@@ -194,15 +209,13 @@ export default function AdminMultiFoto() {
                   });
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }} 
-                className="p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-colors"
+                className="p-3 bg-gray-50 text-slate-600 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition-all"
               >
                 ✏️
               </button>
-
-              {/* BOTÓN ELIMINAR (RECUPERADO) */}
               <button 
                 onClick={() => eliminarProducto(p.id, p.nombre)}
-                className="p-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
+                className="p-3 bg-gray-50 text-slate-600 rounded-2xl hover:bg-red-50 hover:text-red-600 transition-all"
               >
                 🗑️
               </button>
